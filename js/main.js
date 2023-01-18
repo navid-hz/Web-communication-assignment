@@ -21,14 +21,19 @@
 * http://www.omdbapi.com/?apikey=[yourkey]&s=star trek&type=series
 *
 */
+//selecting the button
 let btn = document.getElementById("butt");
-console.log(btn);
+
+//API key
 let omdbKey = "e7e8f39f";
 let wsKey = "9dbb6ad8f3d93c19f34df55e0c1d8839";
 
+//function to create the movie cards and weather cards
 function render(dataMovie, dataws) {
+    //selecting the div where the cards will be created
     let moveCard = document.getElementById("cards");
     let template = '';
+    //looping through the array of movies JSON and creating the cards
     dataMovie.Search.forEach((movie) => {
         template += `
             <div class="card shadow-0 border p-4 m-4">
@@ -41,10 +46,12 @@ function render(dataMovie, dataws) {
                 <p>ID: ${movie.imdbID}</p>
             </div>`
             });
-    console.log(template);
+    //inserting the cards into the div
     moveCard.innerHTML = template;
 
+    //selecting the div where the weather cards will be created
     let wsCard = document.getElementById("ws");
+    //creating the weather cards
     let templatews = `
     <div class="col-sm-12">
           <div class="card shadow-0 border">
@@ -62,22 +69,25 @@ function render(dataMovie, dataws) {
   
         </div>`;
     console.log(templatews);
+    //inserting the weather cards into the div
     wsCard.innerHTML = templatews;
 }
 
-
+//function to get the data from and  APIs
 btn.addEventListener("click", function (e) {
     e.preventDefault();
+    //Get the value of the dropdown
     let select = document.getElementById("Cities");
-    
     let cities = select.value;
-    
+    //creating the url for the APIs
     let urlws = `http://api.weatherstack.com/current?access_key=${wsKey}&query=${cities}`;
     console.log(urlws);
     let omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}&s=${cities}`;
-    console.log(omdbUrl);
+    
+    //JSON data from the APIs
     let dataMovie;
     let dataws;
+    //fetching the data from the APIs
     fetch(omdbUrl).then((response) => {
         if (!response.ok) {
             throw Error(response.statusText);
@@ -95,10 +105,11 @@ btn.addEventListener("click", function (e) {
                 dataws = data;
                 console.log(data);
                 console.log(dataMovie);
+                //calling the render function for creating the cards
                 render(dataMovie, dataws);
             }).catch((error) => {
                 console.log(error);
             });
     
-} );
+});
     
