@@ -26,7 +26,7 @@ let btn = document.getElementById("butt");
 
 //API key
 let omdbKey = "e7e8f39f";
-let wsKey = "9dbb6ad8f3d93c19f34df55e0c1d8839";
+let wsKey = "bf1c49b07c45aa82255e32195d1f8c44";
 
 //function to create the movie cards and weather cards
 function render(dataMovie, dataws) {
@@ -56,12 +56,13 @@ function render(dataMovie, dataws) {
     <div class="col-sm-12">
           <div class="card shadow-0 border">
             <div class="card-body p-4">
-              <h4 class="mb-1 sfw-normal">${dataws.location.name}, ${dataws.location.country}</h4>
-              <p class="mb-2">Current temperature: <strong>${dataws.current.temperature}°C</strong></p>
-              <p>Feels like: <strong>${dataws.current.feelslike}°C</strong></p>
+              <h4 class="mb-1 sfw-normal">${dataws.name}, ${dataws.sys.country}</h4>
+              <p class="mb-2">Current temperature: <strong>${dataws.main.temp}°C</strong></p>
+              <p>Feels like: <strong>${dataws.main.feels_like}°C</strong></p>
+              <p>Max: <strong>${dataws.main.temp_max}°C</strong>, Min: <strong>${dataws.main.temp_min}°C</strong></p>
               <div class="d-flex flex-row align-items-center">
-                <p class="mb-0 me-4">${dataws.current.weather_descriptions}</p>
-                <img src="${dataws.current.weather_icons}" height="50">
+                <p class="mb-0 me-4">${dataws.weather[0].description}</p>
+                <img src="https://openweathermap.org/img/wn/${dataws.weather[0].icon}@2x.png">
               </div>
   
             </div>
@@ -80,7 +81,7 @@ btn.addEventListener("click", function (e) {
     let select = document.getElementById("Cities");
     let cities = select.value;
     //creating the url for the APIs
-    let urlws = `http://api.weatherstack.com/current?access_key=${wsKey}&query=${cities}`;
+    let urlws = `http://api.openweathermap.org/data/2.5/weather?q=${cities}&appid=${wsKey}&units=metric`;
     console.log(urlws);
     let omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}&s=${cities}`;
     
